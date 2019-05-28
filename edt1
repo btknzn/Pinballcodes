@@ -1,0 +1,133 @@
+import time
+import board
+from board import SCL, SDA
+import busio
+from digitalio import DigitalInOut, Direction, Pull
+import bitbangio as io
+import adafruit_ssd1306
+#sensors
+switch0 = DigitalInOut(board.D0)
+switch1 = DigitalInOut(board.D1)
+switch2 = DigitalInOut(board.D2)
+switch3 = DigitalInOut(board.D3)
+switch4 = DigitalInOut(board.D4)
+switch5 = DigitalInOut(board.D5)
+switch6 = DigitalInOut(board.D6)
+switch7 = DigitalInOut(board.D7)
+switch8 = DigitalInOut(board.D8)
+switch9 = DigitalInOut(board.D9)
+switch10 = DigitalInOut(board.D10)
+switch11 = DigitalInOut(board.D11)
+switch12 = DigitalInOut(board.D12)
+switch13 = DigitalInOut(board.D13)
+A=0
+
+switch0.direction = Direction.INPUT
+switch0.pull = Pull.UP
+
+switch1.direction = Direction.INPUT
+switch1.pull = Pull.UP
+
+switch2.direction = Direction.INPUT
+switch2.pull = Pull.UP
+
+switch3.direction = Direction.INPUT
+switch3.pull = Pull.UP
+
+
+switch4.direction = Direction.INPUT
+switch4.pull = Pull.UP
+
+switch5.direction = Direction.INPUT
+switch5.pull = Pull.UP
+
+switch6.direction = Direction.INPUT
+switch6.pull = Pull.UP
+
+switch7.direction = Direction.INPUT
+switch7.pull = Pull.UP
+
+switch8.direction = Direction.INPUT
+switch8.pull = Pull.UP
+
+switch9.direction = Direction.INPUT
+switch9.pull = Pull.UP
+
+switch10.direction = Direction.INPUT
+switch10.pull = Pull.UP
+
+switch11.direction = Direction.INPUT
+switch11.pull = Pull.UP
+
+switch12.direction = Direction.INPUT
+switch12.pull = Pull.UP
+
+switch13.direction = Direction.INPUT
+switch13.pull = Pull.UP
+#initialize display
+i2c = busio.I2C(SCL, SDA)
+display = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
+#controll sensor
+def ControlSensorReturnScore(score,switch0,switch1,switch2,switch3,switch4,switch5,switch6,switch7,switch8,switch9,switch10,switch11,switch12):
+    sensor_on=0
+    while True:
+        if  switch0.value == False :
+            sensor_on=1
+            #print("girdi0")
+        elif switch1.value == False :
+            sensor_on=1
+            #print("girdi1")
+        elif switch2.value == False :
+            sensor_on=1
+            #print("girdi2")
+        elif switch3.value == False :
+            sensor_on=1
+            #print("girdi3")
+        elif switch4.value == False :
+            sensor_on=1
+            #print("girdi4")
+        elif switch5.value == False :
+            sensor_on=1
+            #print("girdi5")
+        elif switch6.value == False :
+            sensor_on=1
+            #print("girdi6")
+        elif switch7.value == False :
+            sensor_on=1
+            #print("girdi7")
+        elif switch8.value == False :
+            sensor_on=1
+            #print("girdi8")
+        elif switch9.value == False :
+            sensor_on=1
+            #print("girdi9")
+        elif switch10.value == False :
+            sensor_on=1
+            #print("girdi10")
+        elif switch11.value == False :
+            sensor_on=1
+            #print("girdi11")
+        elif switch12.value == False :
+            sensor_on=1
+            #print("girdi12")
+#this part look differential value  of sensor value to detect when pinball ball goes above certain area and give 10 points
+        else:
+            if sensor_on==1:
+                    score=score+10
+                    sensor_on=0
+                    return score
+        time.sleep(0.01)
+def main():
+    score = 0
+    display.fill(0)
+    display.text("Spiel anfangt",0,0,1)
+    display.show()
+    print("haha")
+    while True:
+        score=ControlSensorReturnScore(score,switch0,switch1,switch2,switch3,switch4,switch5,switch6,switch7,switch8,switch9,switch10,switch11,switch12)
+        display.fill(0)
+        print(score)
+        displayvalue=str(score)
+        display.text(displayvalue,0 , 0, 1)
+        display.show()
+main()
